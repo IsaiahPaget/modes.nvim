@@ -61,19 +61,18 @@ M.set_hl = function(name, color)
 end
 
 M.get_fg = function(name, fallback)
-	local id = vim.api.nvim_get_hl_id_by_name(name)
-	if not id then
+	local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name })
+	if not ok or not hl or not hl.fg then
 		return fallback
 	end
 
-	local foreground = vim.fn.synIDattr(id, 'fg')
-	if not foreground or foreground == '' then
+	local hex = string.format("#%06x", hl.fg)
+	if hex == "#000000" then
 		return fallback
 	end
 
-	return foreground
+	return hex
 end
-
 M.get_bg = function(name, fallback)
 	local id = vim.api.nvim_get_hl_id_by_name(name)
 	if not id then

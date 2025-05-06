@@ -109,6 +109,7 @@ describe('modes.lua tests:', function()
 				end
 
 				modes.highlight('visual')
+				local val = modes_utils.get_fg('visual', 'visual')
 				assert.truthy(
 					modes_utils.get_fg('visual', 'visual') ~= '#000000'
 				)
